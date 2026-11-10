@@ -1,0 +1,12 @@
+{% extends "accounts/auth_base.html" %}
+{% block title %}Sign up{% endblock %}
+{% block auth %}
+  <h1>Create your account</h1>
+  <p class="lead-line">New accounts start as a member.</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <button type="submit" class="btn btn-primary">Sign up</button>
+  </form>
+  <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+{% endblock %}
