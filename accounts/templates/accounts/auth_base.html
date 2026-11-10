@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+  <div class="auth-shell">
+    <aside class="auth-aside">
+      <p class="auth-aside-title">Your gym, in one place.</p>
+      <p class="auth-aside-text">Memberships, classes and training plans for members, trainers and staff.</p>
+    </aside>
+    <main class="auth-main">
+      <div class="auth-form">
+        {% block auth %}{% endblock %}
+      </div>
+    </main>
+  </div>
+{% endblock %}
