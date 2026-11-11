@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from .forms import SignUpForm
+from .models import User
+from .permissions import role_required
 
 
 def signup(request):
@@ -21,3 +23,8 @@ def signup(request):
 @login_required
 def home(request):
     return render(request, "accounts/home.html")
+
+
+@role_required(User.Role.ADMIN)
+def admin_panel(request):
+    return render(request, "accounts/admin_panel.html")

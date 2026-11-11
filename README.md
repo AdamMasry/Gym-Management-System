@@ -19,6 +19,21 @@ and each account has a role: Admin, Trainer or Member.
 - `/signup/` creates an account. New accounts start as Member.
 - `/login/` logs in with email and password.
 - `/admin/` is the admin panel for staff accounts.
+- `/manage/` is the Nabd admin panel. Only Admin accounts can open it.
+
+## Permissions
+
+Use `role_required` to limit a view to certain roles. Users who are not logged
+in are sent to the login page, and users with another role get a 403 page.
+
+```python
+from accounts.permissions import role_required
+
+@role_required(User.Role.ADMIN, User.Role.TRAINER)
+def my_view(request): ...
+```
+
+Import `User` from `accounts.models` as well.
 
 ## Notes for developers
 
