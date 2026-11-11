@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Assign trainers{% endblock %}
+{% block content %}
+  <h1>Assign trainers</h1>
+  <p class="page-sub">Each member has one trainer. Assigning a new trainer replaces the old one.</p>
+
+  <form method="post" novalidate style="max-width: 560px">
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <button type="submit" class="btn btn-primary">Assign</button>
+  </form>
+
+  <h2 class="h5 mt-5">Current assignments</h2>
+  {% if assignments %}
+    <table class="table align-middle">
+      <thead>
+        <tr><th>Member</th><th>Trainer</th><th>Since</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for assignment in assignments %}
+          <tr>
+            <td>{{ assignment.member.get_full_name|default:assignment.member.email }}</td>
+            <td>{{ assignment.trainer.get_full_name|default:assignment.trainer.email }}</td>
+            <td>{{ assignment.assigned_at|date:"M j, Y" }}</td>
+            <td class="text-end">
+              <form method="post" action="{% url 'unassign_trainer' assignment.pk %}" class="m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-quiet btn-sm">Remove</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="empty-state">No members have a trainer yet.</p>
+  {% endif %}
+{% endblock %}

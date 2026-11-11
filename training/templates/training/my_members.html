@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My members{% endblock %}
+{% block content %}
+  <h1>My members</h1>
+  <p class="page-sub">Members an admin has assigned to you.</p>
+  {% if assignments %}
+    <table class="table align-middle">
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Assigned</th></tr>
+      </thead>
+      <tbody>
+        {% for assignment in assignments %}
+          <tr>
+            <td>{{ assignment.member.get_full_name|default:"-" }}</td>
+            <td>{{ assignment.member.email }}</td>
+            <td>{{ assignment.member.phone|default:"-" }}</td>
+            <td>{{ assignment.assigned_at|date:"M j, Y" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="empty-state">No members are assigned to you yet. An admin assigns members to trainers.</p>
+  {% endif %}
+{% endblock %}

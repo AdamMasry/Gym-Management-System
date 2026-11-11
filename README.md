@@ -21,6 +21,18 @@ and each account has a role: Admin, Trainer or Member.
 - `/admin/` is the admin panel for staff accounts.
 - `/manage/` is the Nabd admin panel. Only Admin accounts can open it.
 
+## Trainers
+
+Trainers have a profile with a specialty and a bio. An admin assigns one
+trainer to each member, and each trainer sees only their own members.
+
+- `/trainers/` lists all trainers. Any logged-in user can open it.
+- `/trainers/<id>/` shows a trainer's specialty and bio.
+- `/trainers/me/edit/` lets a trainer create or edit their profile.
+- `/trainers/me/members/` shows a trainer the members assigned to them.
+- `/trainers/assign/` lets an admin assign a trainer to a member. Assigning a
+  new trainer replaces the old one.
+
 ## Permissions
 
 Use `role_required` to limit a view to certain roles. Users who are not logged
@@ -40,3 +52,4 @@ Import `User` from `accounts.models` as well.
 - After pulling changes that touch the models, run `python manage.py migrate`.
 - If migrate fails on an old local database, delete `db.sqlite3` and run it again.
 - Pages extend `base.html`. Shared styles are in `accounts/static/css/site.css`.
+- Run the tests with `python manage.py test`.
