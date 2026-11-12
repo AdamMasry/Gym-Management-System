@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{% if is_new %}Add plan{% else %}Edit plan{% endif %}{% endblock %}
+{% block content %}
+  <h1>{% if is_new %}Add a membership plan{% else %}Edit membership plan{% endif %}</h1>
+  <p class="page-sub">Set the name, how long it lasts and what it costs.</p>
+  <form method="post" novalidate style="max-width: 560px">
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <button type="submit" class="btn btn-primary">Save plan</button>
+    <a class="btn btn-quiet" href="{% url 'plan_list' %}">Cancel</a>
+  </form>
+{% endblock %}
