@@ -33,6 +33,17 @@ trainer to each member, and each trainer sees only their own members.
 - `/trainers/assign/` lets an admin assign a trainer to a member. Assigning a
   new trainer replaces the old one.
 
+## Membership plans
+
+Admins create the plans the gym sells. Members only see plans marked active.
+
+- `/plans/` lists plans. Admins see all plans, members see active ones.
+- `/plans/new/` lets an admin add a plan.
+- `/plans/<id>/edit/` lets an admin edit a plan.
+- `/plans/<id>/delete/` (POST) lets an admin delete a plan.
+
+A plan needs a name, a duration in days and a price greater than zero.
+
 ## Permissions
 
 Use `role_required` to limit a view to certain roles. Users who are not logged
