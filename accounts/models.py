@@ -34,6 +34,7 @@ class User(AbstractUser):
         error_messages={"unique": "An account with this email already exists."},
     )
     phone = models.CharField(max_length=20)
+    photo = models.ImageField(upload_to="profiles/", blank=True)
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.MEMBER)
 
     USERNAME_FIELD = "email"

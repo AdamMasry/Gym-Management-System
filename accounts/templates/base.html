@@ -15,6 +15,7 @@
 
 <body>
   <header class="site-nav">
+    <a class="btn btn-quiet" href="{% url 'profile_edit' %}">Profile</a>
     <a class="site-brand" href="{% url 'home' %}"><span>N</span>abd</a>
     {% if user.is_authenticated %}
     <div class="site-nav-user">
