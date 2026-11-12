@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ profile.user.get_full_name|default:profile.user.email }}{% endblock %}
+{% block content %}
+  <h1>{{ profile.user.get_full_name|default:profile.user.email }}</h1>
+  <p class="page-sub"><span class="role-tag">{{ profile.specialty }}</span></p>
+
+  <h2 class="h5">About</h2>
+  <p>{{ profile.bio|default:"This trainer hasn't written a bio yet."|linebreaksbr }}</p>
+
+
+  {% if user == profile.user %}
+    <p class="mt-4"><a class="btn btn-quiet" href="{% url 'edit_my_profile' %}">Edit my profile</a></p>
+  {% endif %}
+  <p class="mt-4"><a href="{% url 'trainer_list' %}">All trainers</a></p>
+{% endblock %}

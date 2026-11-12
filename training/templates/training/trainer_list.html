@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Trainers{% endblock %}
+{% block content %}
+  <h1>Trainers</h1>
+  <p class="page-sub">Meet the coaches at the gym.</p>
+  {% if user.role == "TRAINER" %}
+    <p><a class="btn btn-quiet" href="{% url 'edit_my_profile' %}">Edit my profile</a>
+       <a class="btn btn-quiet" href="{% url 'my_members' %}">My members</a></p>
+  {% elif user.role == "ADMIN" %}
+    <p><a class="btn btn-quiet" href="{% url 'assign_trainer' %}">Assign trainers</a></p>
+  {% endif %}
+
+  {% if profiles %}
+    <div class="list-group">
+      {% for profile in profiles %}
+        <a class="list-group-item list-group-item-action" href="{% url 'trainer_detail' profile.pk %}">
+          <strong>{{ profile.user.get_full_name|default:profile.user.email }}</strong>
+          <span class="role-tag ms-2">{{ profile.specialty }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state">No trainer profiles yet.</p>
+  {% endif %}
+{% endblock %}

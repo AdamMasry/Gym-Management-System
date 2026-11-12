@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}My trainer profile{% endblock %}
+{% block content %}
+  <h1>{% if is_new %}Create your trainer profile{% else %}Edit your trainer profile{% endif %}</h1>
+  <p class="page-sub">Members see this on the trainers page.</p>
+  <form method="post" novalidate style="max-width: 560px">
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <button type="submit" class="btn btn-primary">Save profile</button>
+  </form>
+{% endblock %}
