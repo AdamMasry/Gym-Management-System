@@ -7,8 +7,6 @@
   <h2 class="h5">About</h2>
   <p>{{ profile.bio|default:"This trainer hasn't written a bio yet."|linebreaksbr }}</p>
 
-  <h2 class="h5 mt-4">Schedule</h2>
-  <p class="empty-state">The class schedule isn't available yet.</p>
 
   {% if user == profile.user %}
     <p class="mt-4"><a class="btn btn-quiet" href="{% url 'edit_my_profile' %}">Edit my profile</a></p>
