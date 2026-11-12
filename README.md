@@ -52,4 +52,3 @@ Import `User` from `accounts.models` as well.
 - After pulling changes that touch the models, run `python manage.py migrate`.
 - If migrate fails on an old local database, delete `db.sqlite3` and run it again.
 - Pages extend `base.html`. Shared styles are in `accounts/static/css/site.css`.
-- Run the tests with `python manage.py test`.
