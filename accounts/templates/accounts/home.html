@@ -2,7 +2,4 @@
 {% block content %}
   <h1 class="h3">Welcome, {{ user.first_name }}</h1>
   <p>You are logged in as {{ user.email }} ({{ user.get_role_display }}).</p>
-  {% if user.role == "ADMIN" %}
-    <a href="{% url 'admin_panel' %}">Go to the admin panel</a>
-  {% endif %}
 {% endblock %}
