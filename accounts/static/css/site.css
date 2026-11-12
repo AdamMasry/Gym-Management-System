@@ -169,3 +169,5 @@ a:hover { color: var(--gym-accent-strong); }
   .site-nav-user .user-email { display: none; }
   .page { padding: 32px 16px; }
 }
+
+.form-narrow { max-width: 560px; }

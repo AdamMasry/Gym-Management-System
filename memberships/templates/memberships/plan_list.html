@@ -1,41 +1,45 @@
 {% extends "base.html" %}
 {% block title %}Membership plans{% endblock %}
 {% block content %}
-  <h1>Membership plans</h1>
-  <p class="page-sub">Choose the plan that fits you.</p>
-  {% if user.role == "ADMIN" %}
-    <p><a class="btn btn-primary" href="{% url 'plan_create' %}">Add plan</a></p>
-  {% endif %}
+<h1>Membership plans</h1>
+<p class="page-sub">Choose the plan that fits you.</p>
+{% if user.role == "ADMIN" %}
+<p><a class="btn btn-primary" href="{% url 'plan_create' %}">Add plan</a></p>
+{% endif %}
 
-  {% if plans %}
-    <table class="table align-middle">
-      <thead>
-        <tr>
-          <th>Plan</th><th>Duration</th><th>Price</th>
-          {% if user.role == "ADMIN" %}<th>Status</th><th></th>{% endif %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for plan in plans %}
-          <tr>
-            <td><strong>{{ plan.name }}</strong></td>
-            <td>{{ plan.duration_days }} days</td>
-            <td>{{ plan.price }}</td>
-            {% if user.role == "ADMIN" %}
-              <td>{% if plan.is_active %}Active{% else %}Inactive{% endif %}</td>
-              <td class="text-end">
-                <a class="btn btn-quiet btn-sm" href="{% url 'plan_edit' plan.pk %}">Edit</a>
-                <form method="post" action="{% url 'plan_delete' plan.pk %}" class="d-inline m-0">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-quiet btn-sm">Delete</button>
-                </form>
-              </td>
-            {% endif %}
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p class="empty-state">No membership plans are available yet.</p>
-  {% endif %}
+{% if plans %}
+<table class="table align-middle">
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th>Duration</th>
+      <th>Price</th>
+      {% if user.role == "ADMIN" %}<th>Status</th>
+      <th></th>{% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for plan in plans %}
+    <tr>
+      <td><strong>{{ plan.name }}</strong></td>
+      <td>{{ plan.duration_days }} days</td>
+      <td>{{ plan.price }}</td>
+      {% if user.role == "ADMIN" %}
+      <td>{% if plan.is_active %}Active{% else %}Inactive{% endif %}</td>
+      <td class="text-end">
+        <a class="btn btn-quiet btn-sm" href="{% url 'plan_edit' plan.pk %}">Edit</a>
+        <form method="post" action="{% url 'plan_delete' plan.pk %}" class="d-inline m-0"
+          onsubmit="return confirm('Delete the plan {{ plan.name|escapejs }}? This cannot be undone.');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-quiet btn-sm">Delete</button>
+        </form>
+      </td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty-state">No membership plans are available yet.</p>
+{% endif %}
 {% endblock %}
