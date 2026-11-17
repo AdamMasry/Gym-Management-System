@@ -15,12 +15,15 @@
 
 <body>
   <header class="site-nav">
-    <a class="btn btn-quiet" href="{% url 'profile_edit' %}">Profile</a>
     <a class="site-brand" href="{% url 'home' %}"><span>N</span>abd</a>
     {% if user.is_authenticated %}
     <div class="site-nav-user">
       {% if user.role == "ADMIN" %}
       <a class="btn btn-quiet" href="{% url 'admin_panel' %}">Admin</a>
+      <a class="btn btn-quiet" href="{% url 'membership_list' %}">Memberships</a>
+      {% endif %}
+      {% if user.role == "MEMBER" %}
+      <a class="btn btn-quiet" href="{% url 'my_membership' %}">My membership</a>
       {% endif %}
       {% if user.role == "TRAINER" %}
       <a class="btn btn-quiet" href="{% url 'edit_my_profile' %}">My profile</a>
@@ -28,6 +31,7 @@
       {% endif %}
       <a class="btn btn-quiet" href="{% url 'trainer_list' %}">Trainers</a>
       <a class="btn btn-quiet" href="{% url 'plan_list' %}">Plans</a>
+      <a class="btn btn-quiet" href="{% url 'profile_edit' %}">Profile</a>
       <span class="user-email">{{ user.email }}</span>
       <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}

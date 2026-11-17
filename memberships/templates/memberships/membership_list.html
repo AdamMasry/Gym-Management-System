@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Memberships{% endblock %}
+{% block content %}
+  <h1>Memberships</h1>
+  <p class="page-sub">Every member's plan, dates and status.</p>
+
+  {% if memberships %}
+    <table class="table align-middle">
+      <thead>
+        <tr><th>Member</th><th>Plan</th><th>Start</th><th>End</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        {% for membership in memberships %}
+          <tr>
+            <td>{{ membership.member.get_full_name|default:membership.member.email }}</td>
+            <td>{{ membership.plan.name }}</td>
+            <td>{{ membership.start_date|date:"M j, Y" }}</td>
+            <td>{{ membership.end_date|date:"M j, Y" }}</td>
+            <td>{{ membership.status_label }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="empty-state">No members have subscribed yet.</p>
+  {% endif %}
+{% endblock %}

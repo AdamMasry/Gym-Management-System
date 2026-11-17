@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}My membership{% endblock %}
+{% block content %}
+  <h1>My membership</h1>
+  <p class="page-sub">Your plan, dates and status.</p>
+  {% if error %}<div class="form-alert" role="alert">{{ error }}</div>{% endif %}
+
+  {% if membership %}
+    <table class="table align-middle" style="max-width: 560px">
+      <tbody>
+        <tr><th>Plan</th><td>{{ membership.plan.name }} ({{ membership.plan.duration_days }} days)</td></tr>
+        <tr><th>Status</th><td><span class="role-tag">{{ membership.status_label }}</span></td></tr>
+        <tr><th>Start date</th><td>{{ membership.start_date|date:"M j, Y" }}</td></tr>
+        <tr><th>End date</th><td>{{ membership.end_date|date:"M j, Y" }}</td></tr>
+        {% if membership.status == "FROZEN" %}
+        <tr><th>Frozen until</th><td>{{ membership.frozen_until|date:"M j, Y" }}</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    <div class="d-flex gap-2">
+      {% if membership.status == "EXPIRED" %}
+        <form method="post" action="{% url 'renew_membership' %}" class="m-0">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Renew</button>
+        </form>
+        <a class="btn btn-quiet" href="{% url 'subscribe' %}">Choose another plan</a>
+      {% else %}
+        <form method="post" action="{% url 'renew_membership' %}" class="m-0">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Renew</button>
+        </form>
+        {% if membership.status == "ACTIVE" %}
+        <a class="btn btn-quiet" href="{% url 'freeze_membership' %}">Freeze</a>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% else %}
+    <p class="empty-state">You do not have a membership yet.</p>
+    <p><a class="btn btn-primary" href="{% url 'subscribe' %}">Subscribe to a plan</a></p>
+  {% endif %}
+{% endblock %}
