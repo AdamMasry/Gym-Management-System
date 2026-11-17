@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Freeze membership{% endblock %}
+{% block content %}
+<h1>Freeze my membership</h1>
+<p class="page-sub">Your membership ends on {{ membership.end_date|date:"M j, Y" }}. Freezing pauses it and moves the end date later by the number of days you freeze.</p>
+<form method="post" novalidate class="form-narrow">
+{% csrf_token %}
+{% include "includes/form_fields.html" %}
+<button type="submit" class="btn btn-primary">Freeze</button>
+<a class="btn btn-quiet" href="{% url 'my_membership' %}">Cancel</a>
+</form>
+{% endblock %}
