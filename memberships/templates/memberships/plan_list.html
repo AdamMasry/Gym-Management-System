@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Membership plans</h1>
 <p class="page-sub">Choose the plan that fits you.</p>
+{% if error %}<div class="form-alert" role="alert">{{ error }}</div>{% endif %}
 {% if user.role == "ADMIN" %}
 <p><a class="btn btn-primary" href="{% url 'plan_create' %}">Add plan</a></p>
 {% endif %}
