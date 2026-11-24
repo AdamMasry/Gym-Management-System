@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+{% block title %}Payment History{% endblock %}
+{% block content %}
+  <h1>Payment History</h1>
+  <p class="page-sub">Your previous payments and invoices.</p>
+
+  {% if payments %}
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Invoice</th>
+            <th>Plan</th>
+            <th>Amount</th>
+            <th>Payment Method</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for payment in payments %}
+            <tr>
+              <td>{{ payment.invoice_number }}</td>
+              <td>{{ payment.plan.name }}</td>
+              <td>{{ payment.amount }}</td>
+              <td>{{ payment.get_payment_method_display }}</td>
+              <td>{{ payment.payment_date|date:"M j, Y H:i" }}</td>
+              <td>
+                <a
+                  class="btn btn-quiet btn-sm"
+                  href="{% url 'invoice_detail' payment.pk %}"
+                >
+                  View invoice
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="empty-state">You do not have any payments yet.</p>
+  {% endif %}
+
+  <a class="btn btn-quiet" href="{% url 'my_membership' %}">
+    Back to membership
+  </a>
+{% endblock %}

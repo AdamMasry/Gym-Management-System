@@ -1,12 +1,15 @@
+
 {% extends "base.html" %}
 {% block title %}Subscribe{% endblock %}
 {% block content %}
   <h1>Subscribe to a plan</h1>
   <p class="page-sub">Your membership starts today and lasts for the length of the plan.</p>
+
   <form method="post" novalidate class="form-narrow">
     {% csrf_token %}
     {% include "includes/form_fields.html" %}
-    <button type="submit" class="btn btn-primary">Subscribe</button>
+
+    <button type="submit" class="btn btn-primary">Subscribe and Pay</button>
     <a class="btn btn-quiet" href="{% url 'my_membership' %}">Cancel</a>
   </form>
 {% endblock %}
