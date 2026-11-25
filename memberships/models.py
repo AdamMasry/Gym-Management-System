@@ -222,3 +222,10 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Invoice {self.invoice_number} - {self.member}"
+    def clean(self):
+        if self.membership_id and self.member_id:
+            if self.membership.member_id != self.member_id:
+                raise ValidationError("This membership belongs to a different member.")
+        if self.membership_id and self.plan_id:
+            if self.membership.plan_id != self.plan_id:
+                raise ValidationError("The plan must be the one this membership is on.")
