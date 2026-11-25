@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% block title %}Invoice {{ payment.invoice_number }}{% endblock %}
+{% block content %}
+  <h1>Payment Invoice</h1>
+  <p class="page-sub">Your membership payment receipt.</p>
+
+  <div class="card p-4" style="max-width: 600px;">
+    <h4>Gym Management System</h4>
+    <hr>
+
+    <p><strong>Invoice Number:</strong> {{ payment.invoice_number }}</p>
+    <p><strong>Member:</strong> {{ payment.member }}</p>
+    <p><strong>Plan:</strong> {{ payment.plan.name }}</p>
+    <p><strong>Duration:</strong> {{ payment.plan.duration_days }} days</p>
+    <p><strong>Amount:</strong> {{ payment.amount }}</p>
+    <p><strong>Payment Method:</strong> {{ payment.get_payment_method_display }}</p>
+    <p><strong>Payment Date:</strong> {{ payment.payment_date|date:"M j, Y H:i" }}</p>
+
+    <hr>
+    <p><strong>Status:</strong> Payment recorded</p>
+
+    <button onclick="window.print()" class="btn btn-primary">
+      Print Invoice
+    </button>
+  </div>
+
+  <a class="btn btn-quiet mt-3" href="{% url 'payment_history' %}">
+    Back to payment history
+  </a>
+{% endblock %}
