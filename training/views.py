@@ -5,8 +5,8 @@ from django.views.decorators.http import require_POST
 from accounts.models import User
 from accounts.permissions import role_required
 
-from .forms import AssignTrainerForm, TrainerProfileForm
-from .models import TrainerAssignment, TrainerProfile
+from .forms import AssignTrainerForm, TrainerProfileForm, GymClassForm
+from .models import TrainerAssignment, TrainerProfile, GymClass
 
 
 @login_required
@@ -69,3 +69,81 @@ def assign_trainer(request):
 def unassign_trainer(request, pk):
     get_object_or_404(TrainerAssignment, pk=pk).delete()
     return redirect("assign_trainer")
+
+@login_required
+def class_schedule(request):
+    classes = GymClass.objects.select_related("trainer").all()
+
+    day_groups = []
+
+    for day_value, day_label in GymClass.Day.choices:
+        day_classes = classes.filter(
+            day=day_value
+        ).order_by("class_time", "name")
+
+        day_groups.append({
+            "day": day_label,
+            "classes": day_classes,
+        })
+
+    return render(
+        request,
+        "training/class_schedule.html",
+        {"day_groups": day_groups},
+    )
+
+
+@role_required(User.Role.TRAINER)
+def class_create(request):
+    if request.method == "POST":
+        form = GymClassForm(request.POST)
+
+        if form.is_valid():
+            gym_class = form.save(commit=False)
+            gym_class.trainer = request.user
+            gym_class.save()
+
+            return redirect("class_schedule")
+
+    else:
+        form = GymClassForm()
+
+    return render(
+        request,
+        "training/class_form.html",
+        {
+            "form": form,
+            "is_new": True,
+        },
+    )
+
+
+@role_required(User.Role.TRAINER)
+def class_edit(request, pk):
+    gym_class = get_object_or_404(
+        GymClass,
+        pk=pk,
+        trainer=request.user,
+    )
+
+    if request.method == "POST":
+        form = GymClassForm(
+            request.POST,
+            instance=gym_class,
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("class_schedule")
+
+    else:
+        form = GymClassForm(instance=gym_class)
+
+    return render(
+        request,
+        "training/class_form.html",
+        {
+            "form": form,
+            "is_new": False,
+        },
+    )
