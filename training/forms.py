@@ -3,7 +3,7 @@ from django import forms
 from accounts.forms import BootstrapFormMixin
 from accounts.models import User
 
-from .models import TrainerProfile
+from .models import TrainerProfile, GymClass
 
 
 class UserChoiceField(forms.ModelChoiceField):
@@ -34,4 +34,38 @@ class AssignTrainerForm(BootstrapFormMixin, forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._style_fields()
+
+class GymClassForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = GymClass
+        fields = [
+            "name",
+            "day",
+            "class_time",
+            "duration_minutes",
+            "capacity",
+        ]
+
+        widgets = {
+            "class_time": forms.TimeInput(
+                attrs={"type": "time"},
+                format="%H:%M",
+            ),
+            "duration_minutes": forms.NumberInput(
+                attrs={"min": 1}
+            ),
+            "capacity": forms.NumberInput(
+                attrs={"min": 1}
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["duration_minutes"].help_text = (
+            "Duration in minutes."
+        )
+        self.fields["capacity"].help_text = (
+            "Maximum number of members. Must be at least 1."
+        )
         self._style_fields()

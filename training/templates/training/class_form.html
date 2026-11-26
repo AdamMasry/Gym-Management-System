@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+    {% if is_new %}Create Class{% else %}Edit Class{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<h1>
+    {% if is_new %}
+        Create New Class
+    {% else %}
+        Edit Class
+    {% endif %}
+</h1>
+
+<p class="page-sub">
+    {% if is_new %}
+        Add a new training session to the weekly schedule.
+    {% else %}
+        Update your training session details.
+    {% endif %}
+</p>
+
+<form method="post" novalidate style="max-width: 560px">
+
+    {% csrf_token %}
+
+    {% include "includes/form_fields.html" %}
+
+    <button type="submit" class="btn btn-primary">
+        {% if is_new %}
+            Create Class
+        {% else %}
+            Save Changes
+        {% endif %}
+    </button>
+
+    <a href="{% url 'class_schedule' %}" class="btn btn-quiet">
+        Cancel
+    </a>
+
+</form>
+
+{% endblock %}
